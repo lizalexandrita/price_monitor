@@ -1,0 +1,10 @@
+{
+    "non_standard_libs": 
+        [
+            {
+                "id":"pycurl",
+                "pip_url":"https://pypi.python.org/pypi/pycurl/",
+                "url":"http://pycurl.sourceforge.net/"
+            }
+        ]
+}
