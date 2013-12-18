@@ -7,18 +7,21 @@ import json
 import string
 
 # ------------------------------------------------------------------------------
-class public_api_connection(object):
+class public_api_connection():
     # This class retrieves information from a given url
-    def __init__(self, url_string):
-        # This function initiates the class attributes used to connect to 
-        # mercado libre api and use the public api resources
+    def __init__(self):
+        # This function initiates the class attributes
         self.base_api = 'https://api.mercadolibre.com/'
-        self.item_url = url_string
-        self.item_id = self.product_id(url_string)
-        self.site = self.item_id[:3]
         self.public_resources = ['users','sites','categories','countries','states',
             'cities','currencies','currency_conversions','items','pictures']
+        
+    def __call__(self, url_string):
+        # When using the class it retrieves information based on the url string
+        # and returns the item api url
+        self.item_url = url_string
+        self.item_id = self.product_id(url_string)
         self.item_api_url = self.base_api + 'items/' + self.item_id
+        return self.item_api_url
         
     def product_id(self, url_string):
         # This function returns the product id from a url
@@ -41,15 +44,13 @@ class public_api_connection(object):
         json_dict = json.loads(output.getvalue())
         return json_dict
         
-    def connect_resource(self, resource):
+    def connect_resource(self, resource, resource_id):
+        # This function returns a public api url based on a given public resource
+        # and it's resource id.
         if not self.is_valid_resource(resource):
             raise NameError('Not a public resource: ' + resource)
         else:
-            resource_id = self.resource_id(resource)
             return self.base_api + resource + '/' + resource_id
-        
-    def resource_id(self, resource):
-        pass
         
     def is_valid_resource(self, resource):
         if resource in self.public_resources:
